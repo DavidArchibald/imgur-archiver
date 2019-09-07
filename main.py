@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import math
 import os
 import platform
 import shutil
@@ -228,9 +229,9 @@ async def archive_error(ctx: commands.Context, error):
 
 
 def humanify(seconds):
-    print(seconds)
-    seconds, minutes = divmod(seconds, 60)
-    minutes, hours = divmod(minutes, 60)
+    seconds = math.ceil(seconds)
+    minutes, seconds = divmod(seconds, 60)
+    hours, minutes = divmod(minutes, 60)
 
     items = []
     if hours != 0:
@@ -240,7 +241,6 @@ def humanify(seconds):
     if seconds != 0:
         items.append(f"{seconds} seconds")
 
-    print(items)
     if len(items) == 0:
         return ""
     if len(items) == 1:
