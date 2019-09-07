@@ -19,8 +19,9 @@ class Archive(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command()
     @commands.cooldown(1, 1 * 60 * 60, BucketType.member)
-    async def archive(ctx: commands.Context, url: str):
+    async def archive(self, ctx: commands.Context, url: str):
         # Prevents link embed on Discord
         if url.startswith("<") and url.endswith(">"):
             url = url[1:-1]
@@ -55,7 +56,7 @@ class Archive(commands.Cog):
 
     @commands.command()
     @commands.cooldown(1, 1 * 60 * 5, BucketType.member)
-    async def wayback(ctx, url):
+    async def wayback(self, ctx, url):
         loading = helpers.Loading(ctx, ctx.message)
 
         async with loading:
@@ -117,7 +118,8 @@ async def archive_imgur(ctx, url):
 
                 if image["description"] is not None and image["description"] != "":
                     with open(
-                        f"downloads/{album_id}/{i}_{image['id']}_description.txt", "w+"
+                        f"downloads/{album_id}/{i}_{image['id']}_description.txt",
+                        "w+",
                     ) as f:
                         f.write(image["description"])
 
@@ -139,7 +141,7 @@ async def archive_imgur(ctx, url):
         except OSError:
             pass
 
-        await wait_message.remove()
+        await wait_message.delete()
         await send_archive(ctx, album)
 
 

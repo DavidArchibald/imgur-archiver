@@ -16,6 +16,9 @@ cogs = ["archiver.cogs.archive"]
 def main():
     logging.basicConfig(level=logging.INFO)
 
+    for cog in cogs:
+        bot.load_extension(cog)
+
     with open("secrets.yml", "r") as f:
         secrets = yaml.safe_load(f)
 
@@ -25,6 +28,7 @@ def main():
 
 @bot.event
 async def on_ready():
+    helpers.emojis.get_emojis(bot)
     servers = len(bot.guilds)
     users = len(set(bot.get_all_members()))
     plural = "s" if servers > 1 else ""
@@ -47,7 +51,7 @@ async def on_ready():
 
 
 @bot.event
-async def on_command_error(ctx: commands.Context, command, error):
+async def on_command_error(ctx: commands.Context, error):
     if isinstance(error, commands.errors.CommandOnCooldown):
         await ctx.send(f"You are on cooldown for {helpers.humanify(error.retry_after)}")
         return
