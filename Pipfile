@@ -8,6 +8,8 @@ verify_ssl = true
 [packages]
 imgurpython = "*"
 aiohttp = {extras = ["speedups"],version = "*"}
+discord = "*"
+pyyaml = "*"
 
 [requires]
 python_version = "3.6"
